@@ -1,0 +1,26 @@
+.welcome-text {
+  font-size: 40px;
+  font-weight: bold;
+  color: #004080;
+}
+
+.tagline {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;   /* ✅ Black color */
+  text-shadow: none; /* ✅ Shadow remove */
+}
+
+.banner-img {
+  height: 500px;
+  object-fit: cover;
+  filter: brightness(65%);
+}
+
+.banner-text {
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
+}

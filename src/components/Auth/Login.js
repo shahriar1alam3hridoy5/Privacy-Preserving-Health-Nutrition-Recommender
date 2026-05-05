@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Login.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";  // ✅ useNavigate import
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ function Login() {
   });
 
   const isFormValid = formData.email && formData.password;
+  const navigate = useNavigate();   // ✅ Navigate hook
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,6 +26,7 @@ function Login() {
     e.preventDefault();
     if (isFormValid) {
       alert("Login Successful!");
+      navigate("/home");   // ✅ Login করলে Home Page এ যাবে
     }
   };
 

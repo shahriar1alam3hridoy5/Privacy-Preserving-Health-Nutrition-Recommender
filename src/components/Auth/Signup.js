@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Signup.css";
+import { useNavigate } from "react-router-dom";   // ✅ useNavigate import
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ function Signup() {
     formData.confirmPassword &&
     formData.password === formData.confirmPassword &&
     formData.agree;
+  const navigate = useNavigate();   // ✅ Navigate hook
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -31,6 +33,10 @@ function Signup() {
     e.preventDefault();
     if (isFormValid) {
       alert("Account Created Successfully!");
+      localStorage.setItem("userName", formData.name); // ✅ নাম save করো
+      setTimeout(() => {
+        navigate("/");   // ✅ ৪ সেকেন্ড পর Login Page এ redirect করবে
+      }, 4000);
       // Firebase Auth integration হবে পরে
     }
   };
