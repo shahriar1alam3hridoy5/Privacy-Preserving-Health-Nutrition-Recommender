@@ -21,6 +21,10 @@ import Signup from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import Navbar from "./components/Layout/Navbar";
 import WelcomeSection from "./components/Home/WelcomeSection";
+import HealthGoalForm from "./components/Home/HealthGoalForm";
+import DietPlan from "./components/Plans/DietPlan";
+import ExercisePlan from "./components/Plans/ExercisePlan";
+
 
 function App() {
   return (
@@ -32,8 +36,24 @@ function App() {
           <>
             <Navbar />
             <WelcomeSection />
+             <HealthGoalForm onSubmit={(data) => console.log("Form Data:", data)} />
           </>
-        } />   {/* Home page with Navbar */}
+        } /> 
+          {/* Home page with Navbar */}
+        {/* নতুন Route গুলো */}
+        <Route path="/dietplan" element={
+          <>
+            <Navbar />
+            <DietPlan />
+          </>
+        } />
+
+        <Route path="/exerciseplan" element={
+          <>
+            <Navbar />
+            <ExercisePlan />
+          </>
+        } />  
       </Routes>
     </Router>
   );

@@ -1,0 +1,123 @@
+/* Main container layout */
+.dashboard-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 30px;
+  gap: 40px;
+}
+
+/* Left Form Section */
+.form-section {
+  flex: 1;
+}
+
+.form-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #004080;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Height inputs side by side */
+.height-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.height-inputs input {
+  flex: 1;
+}
+
+/* Goals section aligned checkboxes */
+.goals-section .goal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goal-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+/* Data Sharing custom options */
+.share-options {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px dashed #888;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+.share-options label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.recommend-note {
+  font-size: 13px;
+  color: #006600;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Submit button */
+button.btn-success {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+/* Right Image Section */
+.image-section {
+  flex: 0.8;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.motivation-block {
+  text-align: center;
+}
+
+.side-image {
+  width: 100%;
+  max-width: 350px;
+  margin-bottom: 10px;
+  border: 3px solid #004080;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.motivation-block p {
+  font-size: 16px;
+  font-style: italic;
+  color: #006600;
+  margin: 0;
+}

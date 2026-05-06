@@ -41,12 +41,12 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/diet">
+              <Link className="nav-link" to="/dietplan">
                 <img src="/logos/diet.png" alt="Diet Plan" width="25" className="me-2" /> Diet Plan
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/exercise">
+              <Link className="nav-link" to="/exerciseplan">
                 <img src="/logos/exercise.png" alt="Exercise Plan" width="25" className="me-2" /> Exercise Plan
               </Link>
             </li>
