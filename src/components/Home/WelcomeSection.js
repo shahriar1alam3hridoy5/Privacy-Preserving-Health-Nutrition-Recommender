@@ -2,15 +2,25 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // ✅ Bootstrap JS import
 import "./WelcomeSection.css";
+import { auth, db } from "../../firebase";          // ✅ Firebase import
+import { doc, getDoc } from "firebase/firestore";  // ✅ Firestore import
 
 function WelcomeSection() {
   const [userName, setUserName] = useState("User");
 
-  useEffect(() => {
-    const savedName = localStorage.getItem("userName");
-    if (savedName) {
-      setUserName(savedName);
-    }
+   useEffect(() => {
+    const fetchUserName = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setUserName(userDoc.data().name);
+        }
+      }
+    };
+
+    fetchUserName();
   }, []);
 
   return (

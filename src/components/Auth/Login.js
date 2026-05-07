@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Login.css";
 // import { Link } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";  // ✅ useNavigate import
+import { signInWithEmailAndPassword } from "firebase/auth";   // ✅ NEW: Firebase Auth import
+import { auth, db } from "../../firebase";// ✅ NEW: Firebase config import
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -22,11 +24,25 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isFormValid) {
+      try {
+      // ✅ NEW: Firebase Auth login
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+
+      // localStorage.setItem("userName", user.email); // localStorage এ save
+      
       alert("Login Successful!");
       navigate("/home");   // ✅ Login করলে Home Page এ যাবে
+     } catch (error) {
+      alert(error.message);
+     }
     }
   };
 

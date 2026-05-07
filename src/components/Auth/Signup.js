@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";   // ✅ useNavigate import
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -29,14 +32,33 @@ function Signup() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isFormValid) {
+      try {
+      // ✅ NEW: Firebase Auth signup
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+
+      // ✅ NEW: Firestore এ user info save
+      await setDoc(doc(db, "users", user.uid), {
+        name: formData.name,
+        email: formData.email,
+        createdAt: new Date(),
+      });
+
       alert("Account Created Successfully!");
-      localStorage.setItem("userName", formData.name); // ✅ নাম save করো
+      // localStorage.setItem("userName", formData.name); // ✅ নাম save করো
       setTimeout(() => {
         navigate("/");   // ✅ ৪ সেকেন্ড পর Login Page এ redirect করবে
       }, 4000);
+    } catch (error) {
+      alert(error.message);
+     }
       // Firebase Auth integration হবে পরে
     }
   };

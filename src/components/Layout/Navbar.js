@@ -2,12 +2,15 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom"; // ✅ useNavigate import
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
+import { signOut } from "firebase/auth";   // ✅ NEW: Firebase Auth import
+import { auth } from "../../firebase";        // ✅ NEW: Firebase config import
 
 function Navbar() {
   const navigate = useNavigate(); // ✅ navigate hook
 
   // ✅ Logout function
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth); 
     localStorage.removeItem("userName"); // ✅ userName clear হবে
     alert("You have been logged out!");   // ✅ message দেখাবে
     navigate("/");                        // ✅ Login page এ redirect হবে
