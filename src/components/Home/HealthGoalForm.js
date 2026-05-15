@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./HealthGoalForm.css";
+import { auth, db } from "../../firebase";   
+import { doc, setDoc } from "firebase/firestore";
+import { calculateBMI, calculateBMR, calculateTDEE, calculateMacros } from "../../utils/calculations"; 
 
 function HealthGoalForm({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -41,10 +44,36 @@ function HealthGoalForm({ onSubmit }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem("formData", JSON.stringify(formData)); // ✅ Save data
-    onSubmit(formData);
+    const user = auth.currentUser;
+
+    const rawData = { ...formData };   // 👉 change হয়েছে
+
+    // Calculations
+    const bmi = calculateBMI(formData.weight, formData.heightFeet, formData.heightInch);   // 👉 change হয়েছে
+    const bmr = calculateBMR(formData.age, formData.gender, formData.weight, formData.heightFeet, formData.heightInch);   // 👉 change হয়েছে
+    const tdee = calculateTDEE(bmr, formData.intensity);   // 👉 change হয়েছে
+    const macros = calculateMacros(tdee, formData.goals);   
+
+    const finalData = {   // 👉 change হয়েছে
+      userId: user.uid,
+      ...rawData,
+      bmi,
+      bmr,
+      tdee,
+      macros,
+      createdAt: new Date(),
+    };
+    localStorage.setItem("formData", JSON.stringify(finalData)); // ✅ Save data
+    
+
+  
+    // Cloud save (Firestore)
+    if (user && formData.privacy === "Cloud") {   // 👉 change হয়েছে
+      await setDoc(doc(db, "healthGoals", user.uid), finalData);   // 👉 change হয়েছে
+    }
+    onSubmit(finalData);
     alert("Please check DietPlan and ExercisePlan");
   };
 
@@ -114,7 +143,8 @@ function HealthGoalForm({ onSubmit }) {
               <option value="Other">Other (Write Below)</option>
             </select>
             {formData.workout === "Other" && (
-              <input type="text" placeholder="Write your workout type" onChange={handleChange} />
+              <input type="text" name="workout" placeholder="Write your workout type"
+              value={formData.workoutOther || ""} onChange={handleChange} />
             )}
           </div>
 

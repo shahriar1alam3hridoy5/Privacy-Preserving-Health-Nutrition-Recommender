@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { auth, db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { calculateBMI, calculateBMR, calculateTDEE, calculateMacros } from "../../utils/calculations";
 
 
 function ExercisePlan() {
-  const userName = localStorage.getItem("userName");
-  const formData = JSON.parse(localStorage.getItem("formData"));
+  const [formData, setFormData] = useState(null);  
+  const [userName, setUserName] = useState("");   
+  useEffect(() => {   
+    const fetchData = async () => {   
+      const localData = JSON.parse(localStorage.getItem("formData"));  
+      const user = auth.currentUser;   
+
+      if (localData && localData.privacy === "Local") {   
+        setFormData(localData);   // 👉 change হয়েছে
+        setUserName(localStorage.getItem("userName"));   
+      } else if (user && localData && localData.privacy === "Cloud") {   
+        const goalDoc = await getDoc(doc(db, "healthGoals", user.uid));   
+        if (goalDoc.exists()) {   
+          setFormData(goalDoc.data());   
+          setUserName(user.email);   
+        }
+      }
+    };
+    fetchData();  
+  }, []);   
 
   if (!formData) return <p>Please submit your health goals first.</p>;
 
